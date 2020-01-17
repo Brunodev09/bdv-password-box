@@ -1,0 +1,22 @@
+{
+  "name": "bdv-pw-retriever",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ./compiled/. --disable-gpu"
+  },
+  "author": "brunodev09",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^12.7.2",
+    "clui": "^0.3.6",
+    "cors": "^2.8.5",
+    "electron": "^7.1.9",
+    "figlet": "^1.2.4",
+    "inquirer": "^7.0.3"
+  },
+  "dependencies": {
+    "typescript": "^3.7.5"
+  }
+}
