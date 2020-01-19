@@ -13,7 +13,7 @@ let childTree = {};
 let JSONStorage = ipcRenderer.send('getJSON');
 ipcRenderer.on('receive', (event, data) => {
     JSONStorage = data;
-    ipcRenderer.send("log", JSONStorage);
+   console.log(JSONStorage);
 });
 
 for (let i = 1; i <= tabNumber; i++) {
@@ -39,21 +39,21 @@ try {
             case "error":
                 popup.className = "alert";
                 break;
-            case "warn":    
+            case "warn":
             case "warning":
                 popup.className = "alert-warning";
                 break;
-            case "success":    
+            case "success":
             case "ok":
             default:
-                popup.className = "alert-success";    
-                break;    
+                popup.className = "alert-success";
+                break;
         }
         popup.style.display = "block";
         popup.textContent = message;
         setTimeout(() => {
             popup.style.display = "none";
-        }, ms ? ms : 1000);
+        }, ms ? ms : 1500);
     }
 
     function submitAuth() {
@@ -61,6 +61,7 @@ try {
         try {
             let auth = { username: (<HTMLInputElement>user).value, password: (<HTMLInputElement>password).value };
             let login = false;
+            let unAuthorized = false;
 
             if (!auth.username || !auth.password) {
                 activatePopup("Please fill the username and password fields!", "err");
@@ -75,18 +76,35 @@ try {
             }
             else {
                 userPassed = JSONStorage[encodedKey0].find(k => {
-                    if (k[encodedKey1] === userBuffer && k[encodedKey2] === pwBuffer) {
-                        login = true;
-                        return k;
+                    if (k[encodedKey1] === userBuffer) {
+                        if (k[encodedKey2] === pwBuffer) {
+                            ipcRenderer.send('log', userBuffer)
+                            ipcRenderer.send('log', k[encodedKey1])
+                            ipcRenderer.send('log', k)
+                            login = true;
+                            return k;
+                        }
+                        else {
+                            unAuthorized = true;
+                        }
                     }
                 });
-
-                if (!userPassed) createUser(userBuffer, pwBuffer);
+                if (unAuthorized) {
+                    activatePopup("Incorrect credentials for this user!", "err");
+                    unAuthorized = false;
+                    return;
+                }
+                if (!userPassed) {
+                    activatePopup("Creating new user...", "warn");
+                    createUser(userBuffer, pwBuffer);
+                }
             }
 
             if (!login) ipcRenderer.send("writeFile", JSONStorage);
-            else console.log("Logged in!");
-            navigate(2);
+
+            activatePopup("Logging in...", "ok", 500);
+
+            return navigate(2);
 
         } catch (e) {
             ipcRenderer.send('error', e);
@@ -106,10 +124,11 @@ try {
         const i3: HTMLElement = document.getElementById("input3");
         let key = (<HTMLInputElement>i3).value;
 
+        if (!key) return activatePopup("Please input a key for gathering!", "warn");
         if (userPassed[encodedKey3][key]) {
             copyTextToClipboard(userPassed[encodedKey3][key]);
         }
-        else activatePopup("Please input a key for gathering!", "warn");
+        else activatePopup("Key not found in storage.", "err");
     }
 
     function createKey() {
@@ -119,23 +138,32 @@ try {
         let key = (<HTMLInputElement>i4).value;
         let value = (<HTMLInputElement>i5).value;
 
+        if (!key) return activatePopup("Please enter a value to associate with the key!", "warn");
+        if (!value) return activatePopup("Please enter a value to associate with the key!", "warn");
+
         userPassed[encodedKey3][key] = value;
 
         ipcRenderer.send("writeFile", JSONStorage);
+
+        activatePopup("Key/value stored successfully!");
     }
 
     function navigate(tabNumber: number) {
         switch (tabNumber) {
             case 1:
+                settingsForFrame(1);
                 removeNodeExcept(1);
                 break;
             case 2:
+                settingsForFrame(2);
                 removeNodeExcept(2);
                 break;
             case 3:
+                settingsForFrame(3);
                 removeNodeExcept(3);
                 break;
             case 4:
+                settingsForFrame(4);
                 removeNodeExcept(4);
                 break;
         }
@@ -150,6 +178,23 @@ try {
             } catch (e) {
                 continue;
             }
+        }
+    }
+
+    function settingsForFrame(frame: number) {
+        switch (frame) {
+            case 1:
+                // ipcRenderer.send('resize', {width: 560, height: 185});
+                break;
+            case 2:
+                // ipcRenderer.send('resize', {width: 560, height: 185});
+                break;
+            case 3:
+                // ipcRenderer.send('resize', {width: 560, height: 185});
+                break;
+            case 4:
+                // ipcRenderer.send('resize', {width: 560, height: 300});
+                break;
         }
     }
 
@@ -175,7 +220,7 @@ try {
             const copy = document.execCommand('copy');
             const code = copy ? 0 : 1;
             ipcRenderer.send('log', `Copy exited with code ${code}.`);
-                
+
             if (!code) activatePopup("Copied your key to clipboard!");
             else activatePopup("Sorry! Failed to copy :(", "err");
 

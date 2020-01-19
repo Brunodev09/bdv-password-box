@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "electron ./compiled/src . --disable-gpu"
+    "start": "electron ./compiled/ . --disable-gpu"
   },
   "author": "brunodev09",
   "license": "MIT",

@@ -1,5 +1,5 @@
 import { App, BrowserWindow, ipcMain } from "electron";
-import JSONStorage from "../storage.json";
+import JSONStorage from "./storage.json";
 import fs from "fs";
 
 //@TODO - finish this
@@ -21,7 +21,7 @@ export default class ElectronApp {
     }
 
     private createWindow = () => {
-        const pathString = "../../htmls/index.html";
+        const pathString = "../htmls/index.html";
         this.__w = new BrowserWindow({
             width: this.width,
             height: this.height,
@@ -64,11 +64,24 @@ export default class ElectronApp {
         });
 
         ipcMain.on('writeFile', (event, data) => {
-            console.log('[MAIN] ',`Writing to JSON file storage...`);
-            fs.writeFile("./storage.json", JSON.stringify(data), (err) => {
+            console.log('[MAIN] ', `Writing to JSON file storage...`);
+            fs.writeFile("./compiled/storage.json", JSON.stringify(data), (err) => {
                 if (err) console.log(err)
             });
+            try {
+                fs.writeFile("./src/storage.json", JSON.stringify(data), (err) => {
+                    if (err) console.log(err)
+                });
+            } catch (e) {
+                console.log(e);
+            }
         });
+
+        ipcMain.on('resize', (event, dimension) => {
+            console.log('[MAIN] ', `Resizing window to dimensions ${JSON.stringify(dimension)}...`);
+            this.__w.setSize(dimension.width, dimension.height)
+        });
+
 
         ipcMain.on('error', (event, error) => {
             console.log('[ERROR - WEB PAGE] ', error);

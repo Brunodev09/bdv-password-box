@@ -26,18 +26,18 @@
 
 <body>
 
-	<div id="popup" class="alert">
+	<div style="position: absolute; left: 0px; top: 0px; right: 0px; z-index: 3;" id="popup" class="alert">
 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
 
 	</div>
 
 	<div id="c2">
-		<div style="margin-top: 5%;" class="container-login100-form-btn">
+		<div style="margin-top: 12%;" class="container-login100-form-btn">
 			<button onclick="navigate(3)" type="button" id="sub" class="login100-form-btn">
 				Search data
 			</button>
 		</div>
-		<div style="margin-top: 5%;" class="container-login100-form-btn">
+		<div style="margin-top: 12%;" class="container-login100-form-btn">
 			<button onclick="navigate(4)" type="button" id="sub" class="login100-form-btn">
 				Create data
 			</button>
@@ -51,10 +51,10 @@
 			</button>
 		</div>
 		<div style="margin-top: 5%;" class="wrap-input100 rs2 validate-inptut">
-			<input id="input3" class="input100" type="text" name="pass">
 			<span class="label-input100">Search for an existing key</span>
+			<input id="input3" class="input100" type="text" name="pass">
 		</div>
-		<div style="margin-top: 4%;" class="container-login100-form-btn">
+		<div style="margin-top: 25%;" class="container-login100-form-btn">
 			<button onclick="searchKey()" type="button" id="searchKey" class="login100-form-btn">
 				Search
 			</button>
@@ -67,15 +67,17 @@
 				Go Back
 			</button>
 		</div>
-		<div style="margin-top: 3%; height: 55%" class="wrap-input100 rs2 validate-inptut">
+		<div style="margin-top: 5%; height: 55%" class="wrap-input100 rs2 validate-inptut">
 			<input id="input4" class="input100" type="text" name="pass">
 			<span class="label-input100">Create a new key</span>
+
 		</div>
-		<div style="margin-top: 3%; height: 55%" class="wrap-input100 rs2 validate-inptut">
+		<div style="margin-top: 5%; height: 55%" class="wrap-input100 rs2 validate-inptut">
 			<input id="input5" class="input100" type="text" name="pass">
 			<span class="label-input100">Create a new value associated with the new key</span>
+
 		</div>
-		<div style="margin-top: 10%;" class="container-login100-form-btn">
+		<div style="margin-top: 26%;" class="container-login100-form-btn">
 			<button onclick="createKey()" type="button" id="createKey" class="login100-form-btn">
 				Create
 			</button>
@@ -96,7 +98,7 @@
 				<span class="label-input100">Password</span>
 			</div>
 
-			<div class="container-login100-form-btn">
+			<div style="margin-top: 21%;" class="container-login100-form-btn">
 				<button onclick="submitAuth()" type="button" id="sub" class="login100-form-btn">
 					Get data
 				</button>
@@ -104,7 +106,7 @@
 		</form>
 	</div>
 
-	<script src="../compiled/src/DOM.js"></script>
+	<script src="../compiled/DOM.js"></script>
 
 	<!--===============================================================================================-->
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
