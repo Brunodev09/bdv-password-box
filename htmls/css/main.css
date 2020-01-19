@@ -2,7 +2,20 @@
 .alert {
   padding: 20px;
   background-color: #f44336; /* Red */
-  color: white;
+  color: black;
+  margin-bottom: 15px;
+}
+.alert-success {
+  padding: 20px;
+  background-color: #a9ff93; /* Red */
+  color: black;
+  margin-bottom: 15px;
+}
+
+.alert-warning {
+  padding: 20px;
+  background-color: #f3e739; /* Red */
+  color: black;
   margin-bottom: 15px;
 }
 

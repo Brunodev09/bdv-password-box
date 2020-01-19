@@ -13,6 +13,7 @@ let childTree = {};
 let JSONStorage = ipcRenderer.send('getJSON');
 ipcRenderer.on('receive', (event, data) => {
     JSONStorage = data;
+    ipcRenderer.send("log", JSONStorage);
 });
 
 for (let i = 1; i <= tabNumber; i++) {
@@ -32,6 +33,29 @@ try {
     const encodedKey2 = (Buffer.from("password")).toString('base64');
     const encodedKey3 = (Buffer.from("data")).toString('base64');
 
+    function activatePopup(message: string, type?: string, ms?: number) {
+        switch (type) {
+            case "err":
+            case "error":
+                popup.className = "alert";
+                break;
+            case "warn":    
+            case "warning":
+                popup.className = "alert-warning";
+                break;
+            case "success":    
+            case "ok":
+            default:
+                popup.className = "alert-success";    
+                break;    
+        }
+        popup.style.display = "block";
+        popup.textContent = message;
+        setTimeout(() => {
+            popup.style.display = "none";
+        }, ms ? ms : 1000);
+    }
+
     function submitAuth() {
 
         try {
@@ -39,11 +63,7 @@ try {
             let login = false;
 
             if (!auth.username || !auth.password) {
-                popup.style.display = "block";
-                popup.textContent = "Please fill the username and password fields.";
-                setTimeout(() => {
-                    popup.style.display = "none";
-                }, 1000);
+                activatePopup("Please fill the username and password fields!", "err");
                 return;
             }
 
@@ -82,14 +102,26 @@ try {
         }
     }
 
-    function searchKey(key: string) {
+    function searchKey() {
+        const i3: HTMLElement = document.getElementById("input3");
+        let key = (<HTMLInputElement>i3).value;
+
         if (userPassed[encodedKey3][key]) {
-            copyStringToClipboard(userPassed[encodedKey3][key]);
+            copyTextToClipboard(userPassed[encodedKey3][key]);
         }
+        else activatePopup("Please input a key for gathering!", "warn");
     }
 
-    function createKey(key: string, value: string) {
+    function createKey() {
+        const i4: HTMLElement = document.getElementById("input4");
+        const i5: HTMLElement = document.getElementById("input5");
+
+        let key = (<HTMLInputElement>i4).value;
+        let value = (<HTMLInputElement>i5).value;
+
         userPassed[encodedKey3][key] = value;
+
+        ipcRenderer.send("writeFile", JSONStorage);
     }
 
     function navigate(tabNumber: number) {
@@ -121,16 +153,38 @@ try {
         }
     }
 
-    function copyStringToClipboard(str: string) {
-        const el = document.createElement('textarea');
-        el.style.display = "none";
-        el.value = str;
-        el.setAttribute('readonly', '');
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand('copy');
-        document.body.removeChild(el);
+    function copyTextToClipboard(str: string) {
+        var textArea = document.createElement("textarea");
+        textArea.style.position = 'fixed';
+        textArea.style.top = '0';
+        textArea.style.left = '0';
+        textArea.style.width = '2em';
+        textArea.style.height = '2em';
+        textArea.style.padding = '0';
+        textArea.style.border = 'none';
+        textArea.style.outline = 'none';
+        textArea.style.boxShadow = 'none';
+        textArea.style.background = 'transparent';
+        textArea.value = str;
+
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+
+        try {
+            const copy = document.execCommand('copy');
+            const code = copy ? 0 : 1;
+            ipcRenderer.send('log', `Copy exited with code ${code}.`);
+                
+            if (!code) activatePopup("Copied your key to clipboard!");
+            else activatePopup("Sorry! Failed to copy :(", "err");
+
+        } catch (err) {
+            ipcRenderer.send('error', err);
+        }
+        document.body.removeChild(textArea);
     }
+
 
 
 } catch (e) {

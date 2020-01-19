@@ -2,6 +2,10 @@ import { App, BrowserWindow, ipcMain } from "electron";
 import JSONStorage from "../storage.json";
 import fs from "fs";
 
+//@TODO - finish this
+//@TODO - do the same with cli (a lot better)
+//@TODO - mediator pattern on algo repo
+
 export default class ElectronApp {
     private app: App;
     private __w: BrowserWindow;
@@ -60,7 +64,7 @@ export default class ElectronApp {
         });
 
         ipcMain.on('writeFile', (event, data) => {
-            console.log('[MAIN] ',`No user with the data provided, creating...`);
+            console.log('[MAIN] ',`Writing to JSON file storage...`);
             fs.writeFile("./storage.json", JSON.stringify(data), (err) => {
                 if (err) console.log(err)
             });
