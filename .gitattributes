@@ -1,4 +1,4 @@
 * text=auto
 htmls/css/*.css linguist-vendored
-htmls/fonts/**/*.css linguist-vendored
-htmls/fonts/**/*.scss linguist-vendored
+htmls/fonts/**/**/*.css linguist-vendored
+htmls/fonts/**/**/*.scss linguist-vendored
