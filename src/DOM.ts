@@ -5,6 +5,8 @@ console.log = (data) => {
     ipcRenderer.send('log', data);
 }
 
+let userPassed;
+
 const tabNumber = 4;
 let childTree = {};
 
@@ -47,7 +49,6 @@ try {
 
             let pwBuffer = (Buffer.from(auth.password)).toString('base64');
             let userBuffer = (Buffer.from(auth.username)).toString('base64');
-            let userPassed;
 
             if (!JSONStorage[encodedKey0].length) {
                 userPassed = createUser(userBuffer, pwBuffer);
@@ -82,14 +83,14 @@ try {
     }
 
     function searchKey(key: string) {
-
+        if (userPassed[encodedKey3][key]) {
+            copyStringToClipboard(userPassed[encodedKey3][key]);
+        }
     }
 
-    function createKey(key: string) {
-
+    function createKey(key: string, value: string) {
+        userPassed[encodedKey3][key] = value;
     }
-
-
 
     function navigate(tabNumber: number) {
         switch (tabNumber) {
@@ -118,6 +119,17 @@ try {
                 continue;
             }
         }
+    }
+
+    function copyStringToClipboard(str: string) {
+        const el = document.createElement('textarea');
+        el.style.display = "none";
+        el.value = str;
+        el.setAttribute('readonly', '');
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
     }
 
 

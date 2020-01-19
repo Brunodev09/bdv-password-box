@@ -53,26 +53,40 @@
 	</div>
 
 	<div id="c3">
-		<div style="margin-top: 5%;" class="container-login100-form-btn">
+		<div class="container-login100-form-btn">
 			<button onclick="navigate(2)" type="button" id="sub" class="login100-form-btn">
 				Go Back
 			</button>
 		</div>
-		<div style="margin-top: 5%;" class="container-login100-form-btn">
-			<input id="input3" class="input100" type="text">
-			<span class="label-input100">Search here for a specific key</span>
+		<div style="margin-top: 5%;" class="wrap-input100 rs2 validate-inptut" >
+			<input id="input3" class="input100" type="text" name="pass">
+			<span class="label-input100">Search for an existing key</span>
+		</div>
+		<div style="margin-top: 4%;" class="container-login100-form-btn">
+			<button onclick="searchKey()" type="button" id="sub" class="login100-form-btn">
+				Search
+			</button>
 		</div>
 	</div>
 
 	<div id="c4">
-		<div style="margin-top: 5%;" class="container-login100-form-btn">
+		<div class="container-login100-form-btn">
 			<button onclick="navigate(2)" type="button" id="sub" class="login100-form-btn">
 				Go Back
 			</button>
 		</div>
-		<div style="margin-top: 5%;" class="container-login100-form-btn">
-			<input id="input3" class="input100" type="text">
-			<span class="label-input100">Create a key</span>
+		<div style="margin-top: 3%; height: 55%" class="wrap-input100 rs2 validate-inptut" >
+			<input id="input4" class="input100" type="text" name="pass">
+			<span class="label-input100">Create a new key</span>
+		</div>
+		<div style="margin-top: 3%; height: 55%" class="wrap-input100 rs2 validate-inptut">
+			<input  id="input5" class="input100" type="text" name="pass">
+			<span class="label-input100">Create a new value associated with the new key</span>
+		</div>
+		<div style="margin-top: 10%;" class="container-login100-form-btn">
+			<button onclick="createKey()" type="button" id="sub" class="login100-form-btn">
+				Create
+			</button>
 		</div>
 	</div>
 
