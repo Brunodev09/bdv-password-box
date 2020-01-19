@@ -21,7 +21,7 @@ export default class ElectronApp {
     }
 
     private createWindow = () => {
-        const pathString = "../htmls/index.html";
+        const pathString = "./htmls/index.html";
         this.__w = new BrowserWindow({
             width: this.width,
             height: this.height,

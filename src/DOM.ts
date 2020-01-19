@@ -13,7 +13,7 @@ let childTree = {};
 let JSONStorage = ipcRenderer.send('getJSON');
 ipcRenderer.on('receive', (event, data) => {
     JSONStorage = data;
-   console.log(JSONStorage);
+    console.log(JSONStorage);
 });
 
 for (let i = 1; i <= tabNumber; i++) {
