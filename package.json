@@ -15,7 +15,7 @@
     "@types/node": "^12.7.2",
     "clui": "^0.3.6",
     "cors": "^2.8.5",
-    "electron": "^7.1.9",
+    "electron": "^18.3.7",
     "figlet": "^1.2.4",
     "inquirer": "^7.0.3"
   },
